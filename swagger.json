@@ -1,0 +1,3798 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Rest-n-link",
+      "description": "Bienvenido **rest-n-link**, podrás encontrar todos los endpoint para trabajar con nosotros.\n\n Para comenzar a utilizar nuestra api deberás tener presente tu token (**contacto_id**) y el de tu empresa (**cliente_id**) \n\nEl primer paso es solicitar el token de autorización ('authorization' token bearer), deberás dirigirte a la sección **Token Auth** en el método **POST**, **access-token**\n\n***Nota**: Todos los endpoing retornan como application/json* y su respectivo código de respuesta http",
+      "termsOfService": "",
+      "contact": {
+        "email": ""
+      },
+      "version": "1.0.1"
+    },
+    "servers": [
+      {
+        "url": "https://api.restinlink.ovh/api/v1"
+      }
+    ],
+    "tags": [
+        {
+            "name": "Token Auth",
+            "description": "Crea y revisa tus datos de autorización para usar nuestra API"
+        },
+        {
+            "name": "maestros",
+            "description": ""
+        },
+        {
+            "name": "condolencias",
+            "description": ""
+        },
+        {
+            "name": "cliente",
+            "description": ""
+        },
+        {
+            "name": "sepultura",
+            "description": ""
+        },
+        {
+            "name": "medios",
+            "description": ""
+        },
+        {
+            "name": "imagen perfil",
+            "description": ""
+        },        
+        {
+            "name": "contactos",
+            "description": ""
+        },
+        {
+            "name": "sucursal",
+            "description": ""
+        },
+        {
+            "name": "difunto",
+            "description": ""
+        }        
+    ],
+    "paths": {
+      "/auth/access-data": {
+        "get": {
+            "operationId": "get-auth-access-data",
+          "tags": [
+            "Token Auth"
+          ],
+          "summary": "Revisa tu token y su tiempo de vida",
+          "description": "Te permite conocer si tu token está funcionando correctamente y conocer el tiempo de vida de este",
+          "security":[
+            {
+            "bearerAuth":[]
+          }],
+          "responses": {
+            "200":{
+                "description":"Token válido. Se entrega información de segundos restantes de vida.",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref": "#/components/schemas/Api-Auth-Cor-Tiempo-Restante"
+                        }
+                    }
+                }
+            },            
+            "400":{
+                "description":"Token es inválido. Asegúrate de presentar el formato y token asignado.",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                        }
+                    }
+                }
+            },
+            "403":{
+                "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                        }
+                    }
+                }
+            }            
+          }
+        }
+      },
+      "/auth/access-token":{
+        "post":{
+            "tags":[
+                "Token Auth"
+            ],
+            "security":[],
+            "operationId": "post-auth-access-token",
+            "summary":"",
+            "description":"",
+            "requestBody": {
+                "description": "",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/requestBodies/crearAuthToken"
+                    }
+                  },
+                  "application/xml": {},
+                  "application/x-www-form-urlencoded": {}              
+                },
+                "required": true
+              }, "responses":{
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/responses/creacion-token"
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }             
+              }            
+        }
+      },
+      "/auth/pesame/all/{difunto_id}":{
+        "get":{
+            "operationId": "get-auth-all-pesame",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "security":[{
+              "bearerAuth":[]
+            }],"responses" :{
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "items":{
+                                    "$ref":"#/components/schemas/pesame-privado-busqueda"
+                                }
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                 
+            }           
+        }
+      },      
+      "/auth/pesame/{difunto_id}":{
+        "post":{
+            "operationId": "post-auth-pesame",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"id del difunto",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-pesame"
+                        }
+                    }
+                }
+            },            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/pesame/{difunto_id}":{
+        "post":{
+            "operationId": "post-pesame",
+            "tags":["condolencias"],
+            "responses":{
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                
+            },
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"id del difunto",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-pesame"
+                        }
+                    }
+                }
+            }
+        }
+      },
+      "/auth/pesame/publicar/{pesame_id}":{
+        "patch":{
+            "operationId": "patch-auth-pesame-publicar",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "security":[{
+              "bearerAuth":[]
+            }],
+            "parameters":[{
+                "name":"pesame_id",
+                "in":"path",
+                "description":"id del pesame para publicar",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "publicar":{
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }                
+            },
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/pesame/{pesame_id}":{
+        "patch":{
+            "operationId": "patch-auth-pesame",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "parameters":[{
+                "name":"pesame_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/pesame-publico"
+                        }
+                    }
+                }                
+            },            
+            "security":[{
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito."
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "delete":{
+            "operationId": "delete-auth-pesame",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"pesame_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito."
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "get":{
+            "operationId": "get-auth-pesame",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"pesame_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/pesame-privado-busqueda-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/pesame/{pesame_id}/{key}":{
+        "put":{
+            "operationId": "put-auth-pesame-key",
+            "tags":["condolencias"],
+            "summary": "",
+            "description": "keys diponibles\n\n**nombre**, **mensaje**, **celular**, **email**",
+            "parameters":[{
+                "name":"pesame_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            },{
+                "name":"key",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],          
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{"type":"string", "required":true}
+                            }                            
+                        }
+                    }
+                }                
+            },              
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito."
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/cliente":{
+        "operationId": "get-auth-cliente",
+        "get":{
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "post":{
+            "operationId": "post-auth-cliente",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },
+      "/auth/cliente/{cliente_id}":{
+        "put":{
+            "operationId": "put-auth-cliente-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "patch":{
+            "operationId": "put-auth-patch-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "delete":{
+            "operationId": "put-auth-delete-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },
+      "/auth/cliente/{cliente_id}/{key}":{
+        "put":{
+            "operationId": "put-auth-cliente-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },      
+      "/auth/cliente/estado/{cliente_id}":{
+        "post":{
+            "operationId": "post-auth-cliente-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/cliente/estado-api/{cliente_id}":{
+        "post":{
+            "operationId": "post-auth-cliente-estado-id",
+            "tags":["cliente"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },     
+      "/sepultura/{qr_id}":{
+        "get":{
+            "operationId": "sepultura-qr",
+            "tags":["sepultura"],
+            "security":[],
+            "summary":"",
+            "description":"",
+            "parameters":[{
+                    "name": "qr_id",
+                    "in": "path",
+                    "description": "",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }                
+            }],
+            "responses":{
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/sepultura-qr"
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }             
+              }             
+        }  
+      },      
+      "/auth/sepultura":{
+        "post":{
+            "operationId": "post-auth-sepultura",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "delete":{
+            "operationId": "delete-auth-sepultura",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },
+      "/auth/sepultura/{sepultura_id}":{
+        "put":{
+            "operationId": "put-auth-sepultura-id",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "patch":{
+            "operationId": "patch-auth-sepultura-id",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "get":{
+            "operationId": "get-auth-sepultura-id",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }  
+      },
+      "/auth/sepultura/{sepultura_id}/{key}":{
+        "put":{
+            "operationId": "put-auth-sepultura-id-key",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },      
+      "/auth/difunto":{
+        "post":{
+            "operationId": "post-auth-difunto",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/difunto/{difunto_id}":{
+        "get":{
+            "operationId": "get-auth-difunto-id",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "put":{
+            "operationId": "put-auth-difunto-id",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "patch":{
+            "operationId": "patch-auth-difunto-id",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "delete":{
+            "operationId": "delete-auth-difunto-id",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{difunto_id}/upload-binary/profile":{
+        "post":{
+            "operationId": "post-auth-medios-binary-profile",
+            "tags":["imagen perfil"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{difunto_id}/upload/profile":{
+        "post":{
+            "operationId": "post-auth-medios-upload-profile",
+            "tags":["imagen perfil"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{difunto_id}":{
+        "get":{
+            "operationId": "post-auth-medios-difunto-id",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{difunto_id}/upload/by-url":{
+        "post":{
+            "operationId": "post-auth-medios-difunto-id-upload-url",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{difunto_id}/upload/resources":{
+        "post":{
+            "operationId": "post-auth-medios-difunto-id-upload-resources",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{medio_id}":{
+        "delete":{
+            "operationId": "delete-auth-medios-id",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "patch":{
+            "operationId": "patch-auth-medios-id",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/medios/{medio_id}/{key}":{
+        "put":{
+            "operationId": "put-auth-medios-id-key",
+            "tags":["medios"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/contacto":{
+        "post":{
+            "operationId": "post-contacto",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/contacto/{sucursal_id}":{
+        "post":{
+            "operationId": "post-contacto-sucursal-id",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },      
+      "/auth/contacto/{contacto_id}":{
+        "get":{
+            "operationId": "get-contacto-sucursal-id",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/contacto-sucursal":{
+        "post":{
+            "operationId": "post-contacto-sucursal",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },
+      "/auth/sucursal":{
+        "post":{
+            "operationId": "post-sucursal",
+            "tags":["sucursal"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "patch":{
+            "operationId": "patch-sucursal",
+            "tags":["sucursal"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },
+      "/auth/sucursal/{sucursal_id}":{
+        "delete":{
+            "operationId": "delete-sucursal-id",
+            "tags":["sucursal"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },
+        "get":{
+            "operationId": "get-sucursal-id",
+            "tags":["sucursal"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },            
+      "/auth/sucursal/{sucursal_id}/{key}":{
+        "put":{
+            "operationId": "put-sucursal-id-key",
+            "tags":["sucursal"],
+            "summary": "",
+            "description": "",
+            "security":[
+              {
+              "bearerAuth":[]
+            }],"responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/responses-api-cor-id"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },      
+      "/maestros/regiones":{
+        "get":{
+            "operationId": "get-maestro-regiones",
+            "tags":["maestros"],
+            "responses":{
+                "200":{
+                    "description": "Successful operation",
+                    "content": {
+                            "application/json": {
+                            "schema": {
+                                "$ref": "#/components/responses/region"
+                            }
+                            }
+                    }                    
+                }
+            }
+        }
+      },
+      "/maestros/roles":{
+        "get":{
+            "operationId": "get-maestro-rol",
+            "tags":["maestros"],
+            "responses":{
+                "200":{
+                    "description": "Successful operation",
+                    "content": {
+                            "application/json": {
+                                "type":"object",
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "$ref": "#/components/responses/rols"
+                                    }
+                                }
+                            }
+                    }                    
+                }
+            }            
+        }
+      },
+      "/maestros/sucursales":{
+        "get":{
+            "operationId": "get-maestro-sucursales",
+            "tags":["maestros"],
+            "responses":{
+                "200":{
+                    "description": "Successful operation",
+                    "content": {
+                            "application/json": {
+                                "type":"object",
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "$ref": "#/components/responses/rols"
+                                    }
+                                }
+                            }
+                    }                    
+                }
+            }
+        }
+      },
+      "/maestros/clientes":{
+        "get":{
+            "operationId": "get-maestro-clientes",
+            "tags":["maestros"],
+            "responses":{
+                "200":{
+                    "description": "Successful operation",
+                    "content": {
+                            "application/json": {
+                                "type":"object",
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "$ref": "#/components/responses/rols"
+                                    }
+                                }
+                            }
+                    }                    
+                }
+            }
+        }
+      },
+      "/maestros/medios":{
+        "get":{
+            "operationId": "get-maestro-medios",
+            "tags":["maestros"],
+            "responses":{
+                "200":{
+                    "description": "Successful operation",
+                    "content": {
+                            "application/json": {
+                                "type":"object",
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "$ref": "#/components/responses/rols"
+                                    }
+                                }
+                            }
+                    }                    
+                }
+            }
+        }
+      }                              
+    },
+    "components": {
+        "schemas": {
+                "pesame-privado-busqueda":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "nombre":{"type":"string", "required":true},
+                        "mensaje":{"type":"string","required":true},
+                        "celular":{"type":"string"},
+                        "email":{"type":"string"},
+                        "creado":{"type":"string"},
+                        "publicado":{"type":"boolean"}
+                    }
+                },
+                "pesame-privado-busqueda-id":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string", "required":true},
+                        "mensaje":{"type":"string","required":true},
+                        "celular":{"type":"string"},
+                        "email":{"type":"string"},
+                        "creado":{"type":"string"},
+                        "publicado":{"type":"boolean"}
+                    }
+                },
+                "pesame-publico":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string", "required":true},
+                        "celular":{"type":"string"},
+                        "email":{"type":"string"},
+                        "mensaje":{"type":"string","required":true}
+                    }
+                },
+                "sepultura-qr":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string"},
+                        "lugar_nombre":{"type":"string"},
+                        "lugar_direccion":{"type":"string"},
+                        "link":{"type":"string"},
+                        "gps":{"type":"string"},
+                        "difuntos":{
+                            "type":"array",
+                            "items":{
+                                "$ref":"#/components/schemas/sepultura-difuntos"
+                            }
+                        }
+                    }
+                },
+                "sepultura-difuntos":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "nombre":{"type":"string"},
+                        "apellido":{"type":"string"},
+                        "apodo":{"type":"string"},
+                        "biografia":{"type":"string"},
+                        "creacion":{"type":"string"},
+                        "nacimiento":{"type":"string"},
+                        "partida":{"type":"string"},
+                        "gps":{"type":"string"},
+                        "genero":{"type":"string", "enum":["masculino", "femenino", "sin_especificar"]},
+                        "tipo_ser_vivo":{
+                                "$ref":"#/components/schemas/sepultura-difuntos-tipo-ser-vivo"
+                        },
+                        "condolencias":{
+                            "type":"array",
+                            "items":{
+                                "$ref":"#/components/schemas/sepultura-difuntos-condolencias"
+                            }
+                        },
+                        "medios":{
+                            "type":"array",
+                            "items":{
+                                "$ref":"#/components/schemas/sepultura-difuntos-medios"
+                            }
+                        }
+                    }
+                },
+                "sepultura-difuntos-tipo-ser-vivo":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string"}
+                    }
+                },
+                "sepultura-difuntos-condolencias":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "difunto_id":{"type":"string"},
+                        "nombre":{"type":"string"},
+                        "mensaje":{"type":"string"},
+                        "celular":{"type":"string"},
+                        "email":{"type":"string"},
+                        "creado":{"type":"string"}
+                    }
+                },
+                "sepultura-difuntos-medios":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "nombre":{"type":"string"},
+                        "url":{"type":"string"},
+                        "creacion":{"type":"string"},
+                        "media_tipo":{
+                            "$ref": "#/components/schemas/sepultura-difuntos-medios-tipos"
+                        }                        
+                    }
+                },
+                "sepultura-difuntos-medios-tipos":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "nombre":{"type":"string"},
+                        "mime":{"type":"string"}
+                    }
+                },                                
+                "difunto-pesame":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{
+                            "type":"string",
+                            "required":true
+                        },
+                        "celular":{
+                            "type":"string"
+                        },
+                        "email":{
+                            "type":"string"
+                        },
+                        "mensaje":{
+                            "type":"string",
+                            "required":true                            
+                        }
+                    }
+                },
+                "responses-api-cor-id":{
+                    "type":"object",
+                    "properties":{
+                        "id":{
+                            "type":"string"
+                        }   
+                    }
+                },
+                "Api-Auth-Err-Response": {
+                            "type": "object",
+                            "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                            }
+                },
+                "Api-Auth-Cor-Tiempo-Restante":{
+                    "type": "object",
+                    "properties": {
+                            "second_left": {
+                                "type": "integer"
+                            }
+                    }            
+                }
+        },
+        "requestBodies": {
+                "crearAuthToken": {
+                        "type": "object",
+                        "properties":{
+                                "cliente_id":{
+                                    "type":"string",
+                                    "required":true
+                                },
+                                "contacto_id":{
+                                    "type":"string",
+                                    "required":true
+                                }
+                        }                        
+                },
+                "UserArray": {
+                    "description": "List of user object",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                            }
+                        }
+                    }
+                }
+        },
+        "responses":{
+                "creacion-token":{
+                        "type":"object",
+                        "properties":{
+                            "authorization":{
+                                "type":"string",
+                                "description":"Token de autorización"
+                            },
+                            "valid_for":{
+                                "type":"integer",
+                                "description":"Duración en segundos de la valided del token"
+                            },
+                            "expire_on":{
+                                "type":"string",
+                                "description":"Fecha de expiración del token"
+                            }
+                        }
+                },
+                "comunas":{
+                    "type":"object",
+                    "properties":{
+                            "id":{
+                                "type":"integer",
+                                "description":"Id de la región"
+                            },
+                            "nombre":{
+                                "type":"string",
+                                "description":"Nombre de la comuna"
+                            }
+                    }
+                },
+                "region":{
+                    "type":"object",
+                    "properties":{
+                            "id":{
+                                "type":"integer",
+                                "description":"Identificador de la Región"
+                            },
+                            "acro":{
+                                "type":"string",
+                                "description":"Acrónimo de la Región"
+                            },
+                            "nombre":{
+                                "type":"string",
+                                "description":"Nombre de la Región"
+                            },
+                            "comunas":{
+                                "type":"array",
+                                "items":{
+                                        "$ref":"#/components/responses/comunas"                                
+                                }
+                            }
+                    }
+                },"rols":{
+                    "type":"object",
+                    "properties":{
+                        "id":{
+                            "type":"integer"
+                        },
+                        "nombre":{
+                            "type":"string"   
+                        }              
+                    }
+                }
+        },
+        "securitySchemes": {
+                "bearerAuth": {
+                        "type": "apiKey",
+                        "schema": "bearer",
+                        "bearerFormat": "JWT",
+                        "name": "Authorization",
+                        "in": "header"
+                }        
+            }
+        }
+  }
