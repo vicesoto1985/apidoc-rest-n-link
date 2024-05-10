@@ -18,6 +18,6 @@ jobs:
         - name: comienza
           run: | 
             sudo docker build --no-cache -t apidoc-rest-n-link-image .
-            sudo docker run -it --name apidoc-rest-n-link-deploy --network bridge -p 3106:3101 apidoc-rest-n-link-image api-rest-n-link-image
+            sudo docker run -it --name apidoc-rest-n-link-deploy --network bridge -p 3106:3101 apidoc-rest-n-link-image
 
 
