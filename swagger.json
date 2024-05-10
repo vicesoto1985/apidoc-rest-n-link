@@ -12,7 +12,10 @@
     "servers": [
       {
         "url": "https://api.restinlink.ovh/api/v1"
-      }
+      },
+      {
+        "url": "http://127.0.0.1:3100/api/v1"
+      }      
     ],
     "tags": [
         {
@@ -794,7 +797,7 @@
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/cliente-data-desde-token"
                             }
                         }
                     }
@@ -856,10 +859,21 @@
             "tags":["cliente"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "requestBody": {
+                "description": "",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/cliente-nuevo"
+                    }
+                  },
+                  "application/xml": {},
+                  "application/x-www-form-urlencoded": {}              
+                },
+                "required": true
+              },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -924,93 +938,39 @@
         }        
       },
       "/auth/cliente/{cliente_id}":{
-        "put":{
-            "operationId": "put-auth-cliente-id",
-            "tags":["cliente"],
-            "summary": "",
-            "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
-                "200":{
-                    "description":"Petición terminada con éxito.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
-                        }
-                    }
-                }, 
-                "400":{
-                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "401":{
-                    "description":"Sin autorización.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },  
-                "403":{
-                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "406":{
-                    "description":"Token inválido.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },                                        
-                "412":{
-                    "description":"Bearer token no enviado",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                }                            
-              }
-        },
         "patch":{
-            "operationId": "put-auth-patch-id",
+            "operationId": "patch-auth-patch-id",
             "tags":["cliente"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"id del cliente",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],            
+            "requestBody": {
+                "description": "",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/cliente-nuevo"
+                    }
+                  },
+                  "application/xml": {},
+                  "application/x-www-form-urlencoded": {}              
+                },
+                "required": true
+            },
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -1071,17 +1031,21 @@
             "tags":["cliente"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"id del cliente",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -3532,6 +3496,91 @@
     },
     "components": {
         "schemas": {
+                "cliente-nuevo":{
+                    "type":"object",
+                    "properties":{
+                        "tipo_id":{
+                            "type":"integer",
+                            "description":"Identificador del tipo de Cliente. Ingresar a **Maestros/clientes**",
+                            "required":true
+                        },"nombre":{
+                            "type":"string",
+                            "required":true,
+                            "description":""
+                        },"api_activa":{
+                            "type":"boolean",
+                            "required":true,
+                            "description":"Permite el uso de la API **REST-N-LINK**"
+                        }
+                    }
+                },
+                "cliente-data-desde-token":{
+                    "type":"object",
+                    "properties":{
+                        "id":{"type":"string"},
+                        "nombre":{"type":"string"},
+                        "fecha_creacion":{"type":"string"},
+                        "api_activa":{"type":"boolean"},
+                        "activo":{"type":"boolean"},
+                        "cliente_tipo":{
+                            "type":"object",
+                                "properties":{
+                                    "nombre":{
+                                        "type":"string"
+                                    }
+                                }
+                        },
+                        "sucursales":{
+                            "type":"array",
+                            "items":{
+                                "type":"object",
+                                "properties":{
+                                    "id":{"type":"string"},
+                                    "contacto_encargado_id":{"type":"string"},
+                                    "direccion":{"type":"string"},
+                                    "contacto":{
+                                        "type":"array",
+                                        "items":{
+                                            "type":"object",
+                                            "properties":{
+                                                "id":{"type":"string"},
+                                                "nombre":{"type":"string"},
+                                                "email":{"type":"string"},
+                                                "creacion":{"type":"string"},
+                                                "role_contacto":{
+                                                    "type":"object",
+                                                    "properties":{
+                                                        "nombre":{"type":"string"}
+                                                    }
+                                                },
+                                                "contacto_sucursal":{
+                                                    "type":"object",
+                                                    "properties":{
+                                                        "sucursal_id":{"type":"string"},
+                                                        "contacto_id":{"type":"string"}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "sucursal_tipo":{
+                                        "type":"object",
+                                        "properties":{
+                                            "nombre":{"type":"string"}
+                                        }
+                                    },
+                                    "comuna":{
+                                        "type":"object",
+                                        "properties":{
+                                            "reg_id":{"type":"integer"},
+                                            "nombre":{"type":"string"}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "pesame-privado-busqueda":{
                     "type":"object",
                     "properties":{
