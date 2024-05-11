@@ -688,11 +688,11 @@
         }
       },
       "/auth/pesame/{pesame_id}/{key}":{
-        "put":{
+        "patch":{
             "operationId": "put-auth-pesame-key",
             "tags":["condolencias"],
             "summary": "",
-            "description": "keys diponibles\n\n**nombre**, **mensaje**, **celular**, **email**",
+            "description": "",
             "parameters":[{
                 "name":"pesame_id",
                 "in":"path",
@@ -707,7 +707,13 @@
                 "description":"",
                 "required":true,
                 "schema":{
-                    "type":"string"
+                    "type":"string",
+                    "enum": [
+                        "nombre",
+                        "mensaje",
+                        "celular",
+                        "email"
+                      ]                                        
                 }                
             }],          
             "requestBody":{
@@ -938,8 +944,8 @@
         }        
       },
       "/auth/cliente/{cliente_id}":{
-        "patch":{
-            "operationId": "patch-auth-patch-id",
+        "put":{
+            "operationId": "put-auth-cliente-put-id",
             "tags":["cliente"],
             "summary": "",
             "description": "",
@@ -1103,22 +1109,51 @@
         }        
       },
       "/auth/cliente/{cliente_id}/{key}":{
-        "put":{
-            "operationId": "put-auth-cliente-id",
+        "patch":{
+            "operationId": "patch-auth-cliente-id",
             "tags":["cliente"],
             "summary": "",
+            "security":[{"bearerAuth":[]}],
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "parameters":[{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            },{
+                "name":"key",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string",
+                    "enum": [
+                        "nombre",
+                        "tipo_id",
+                        "api_activa"
+                      ]                    
+                }
+            }],          
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{"type":"string", "required":true}
+                            }                            
+                        }
+                    }
+                }                
+            },             
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -1181,17 +1216,37 @@
             "tags":["cliente"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],                      
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{
+                                    "type":"boolean",
+                                    "required":true
+                                }
+                            }                            
+                        }
+                    }
+                }                
+            },                          
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+
                         }
                     }
                 }, 
@@ -1254,17 +1309,37 @@
             "tags":["cliente"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],                      
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{
+                                    "type":"boolean",
+                                    "required":true
+                                }
+                            }                            
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+
                         }
                     }
                 }, 
@@ -1367,81 +1442,17 @@
             "tags":["sepultura"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
-                "200":{
-                    "description":"Petición terminada con éxito.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/sepultura-ingreso"
                         }
                     }
-                }, 
-                "400":{
-                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "401":{
-                    "description":"Sin autorización.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },  
-                "403":{
-                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "406":{
-                    "description":"Token inválido.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },                                        
-                "412":{
-                    "description":"Bearer token no enviado",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                }                            
-              }
-        },
-        "delete":{
-            "operationId": "delete-auth-sepultura",
-            "tags":["sepultura"],
-            "summary": "",
-            "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+                }                
+            },             
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -1507,85 +1518,30 @@
       },
       "/auth/sepultura/{sepultura_id}":{
         "put":{
-            "operationId": "put-auth-sepultura-id",
-            "tags":["sepultura"],
-            "summary": "",
-            "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
-                "200":{
-                    "description":"Petición terminada con éxito.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
-                        }
-                    }
-                }, 
-                "400":{
-                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "401":{
-                    "description":"Sin autorización.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },  
-                "403":{
-                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "406":{
-                    "description":"Token inválido.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },                                        
-                "412":{
-                    "description":"Bearer token no enviado",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                }                            
-              }
-        },
-        "patch":{
             "operationId": "patch-auth-sepultura-id",
             "tags":["sepultura"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name": "sucursal_id",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }  
+            }],                        
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/sepultura-ingreso"
+                        }
+                    }
+                }                
+            },                          
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -1653,16 +1609,23 @@
             "tags":["sepultura"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name": "sepultura_id",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }  
+            }],            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/sepultura-informacion"
                             }
                         }
                     }
@@ -1718,25 +1681,118 @@
                     }
                 }                            
               }
-        }  
-      },
-      "/auth/sepultura/{sepultura_id}/{key}":{
-        "put":{
-            "operationId": "put-auth-sepultura-id-key",
+        },
+        "delete":{
+            "operationId": "delete-auth-sepultura",
             "tags":["sepultura"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name": "sucursal_id",
+                "in": "path",
+                "description": "",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }  
+            }],            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
                             }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }        
+      },
+      "/auth/sepultura/{sepultura_id}/{key}":{
+        "patch":{
+            "operationId": "put-auth-sepultura-id-key",
+            "tags":["sepultura"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"key",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string",
+                    "enum":["gps", "camposanto_nombre", "camposanto_direccion", "sepultura_nombre"]
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{"type":"string", "required":true}
+                            }                            
+                        }
+                    }
+                }                
+            },            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            
                         }
                     }
                 }, 
@@ -2589,7 +2645,7 @@
                 }                            
               }
         },
-        "patch":{
+        "put":{
             "operationId": "patch-auth-medios-id",
             "tags":["medios"],
             "summary": "",
@@ -2662,7 +2718,7 @@
         }
       },
       "/auth/medios/{medio_id}/{key}":{
-        "put":{
+        "patch":{
             "operationId": "put-auth-medios-id-key",
             "tags":["medios"],
             "summary": "",
@@ -3097,16 +3153,16 @@
                     }
                 }                            
               }
-        },
-        "patch":{
-            "operationId": "patch-sucursal",
+        }       
+      },
+      "/auth/sucursal/{sucursal_id}":{
+        "put":{
+            "operationId": "put-sucursal-id",
             "tags":["sucursal"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -3168,9 +3224,7 @@
                     }
                 }                            
               }
-        }        
-      },
-      "/auth/sucursal/{sucursal_id}":{
+        },
         "delete":{
             "operationId": "delete-sucursal-id",
             "tags":["sucursal"],
@@ -3315,7 +3369,7 @@
         }        
       },            
       "/auth/sucursal/{sucursal_id}/{key}":{
-        "put":{
+        "patch":{
             "operationId": "put-sucursal-id-key",
             "tags":["sucursal"],
             "summary": "",
@@ -3496,6 +3550,54 @@
     },
     "components": {
         "schemas": {
+                "sepultura-informacion":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string"},
+                        "camposanto_nombre":{"type":"string"},
+                        "camposanto_direccion":{"type":"string"},
+                        "link":{"type":"string"},
+                        "gps":{"type":"string"},
+                        "contacto":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"},
+                                "email":{"type":"string"},
+                                "cliente":{
+                                    "type":"object",
+                                    "properties":{
+                                        "nombre":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sepultura-ingreso":{
+                    "type":"object",
+                    "properties":{
+                        "sepultura_nombre":{
+                            "type":"string",
+                            "required":true,
+                            "description":""
+                        },
+                        "camposanto_nombre":{
+                            "type":"string",
+                            "required":false,
+                            "description":""
+                        },
+                        "camposanto_direccion":{
+                            "type":"string",
+                            "required":false,
+                            "description":""                            
+                        },
+                        "gps":{
+                            "type":"string",
+                            "required":false,
+                            "description":""                            
+                        }
+                    }
+                },
                 "cliente-nuevo":{
                     "type":"object",
                     "properties":{
@@ -3617,8 +3719,8 @@
                     "type":"object",
                     "properties":{
                         "nombre":{"type":"string"},
-                        "lugar_nombre":{"type":"string"},
-                        "lugar_direccion":{"type":"string"},
+                        "camposanto_nombre":{"type":"string"},
+                        "camposanto_direccion":{"type":"string"},
                         "link":{"type":"string"},
                         "gps":{"type":"string"},
                         "difuntos":{
