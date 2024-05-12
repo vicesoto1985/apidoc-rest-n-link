@@ -2360,16 +2360,23 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"id del pesame",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/difunto-medios"
                             }
                         }
                     }
@@ -2433,10 +2440,26 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-medios-agregar-url"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -2506,16 +2529,43 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "required":true,
+                "content":{
+                    "multipart/form-data": {
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "media_file":{
+                                    "type":"array",
+                                    "items":{
+                                        "type":"string",
+                                        "format":"binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }                
+            },
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/difunto-medios-agregar-resources-Response"
                             }
                         }
                     }
@@ -2579,17 +2629,22 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"medio_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+                            
                         }
                     }
                 }, 
@@ -2650,17 +2705,30 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"medio_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-medios-modificar"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -2723,10 +2791,44 @@
             "tags":["medios"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"medio_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            },{
+                "name":"key",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string",
+                    "enum": [
+                        "media_nombre",
+                        "media_leyenda"
+                      ]                    
+                }
+            }],          
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{
+                                    "type":"string",
+                                    "required":true
+                                }
+                            }                            
+                        }
+                    }
+                }                
+            },               
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -2796,10 +2898,17 @@
             "tags":["contactos"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/contacto-agregar"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -2864,15 +2973,109 @@
         }
       },
       "/auth/contacto/{sucursal_id}":{
+        "get":{
+            "operationId": "get-contacto-sucursal-id",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"sucursal_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/contactos-por-scursal"
+                            }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        },        
         "post":{
             "operationId": "post-contacto-sucursal-id",
             "tags":["contactos"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"sucursal_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/contacto-agregar"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -2880,6 +3083,87 @@
                             "schema":{
                                 "$ref": "#/components/schemas/responses-api-cor-id"
                             }
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }
+      },        
+      "/auth/contacto-sucursal":{
+        "post":{
+            "operationId": "post-contacto-asignar-sucursal-id",
+            "tags":["contactos"],
+            "summary": "",
+            "description": "Asigna contactos a sucursal",
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "contacto_id":{"type":"string", "required":true},
+                                "sucursal_id":{"type":"string", "required":true}
+                            }
+                        }
+                    }
+                }                
+            },            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
                         }
                     }
                 }, 
@@ -2936,95 +3220,29 @@
               }
         }
       },      
-      "/auth/contacto/{contacto_id}":{
+      "/auth/contacto/{contacto_id}/info":{
         "get":{
-            "operationId": "get-contacto-sucursal-id",
+            "operationId": "get-contacto-id",
             "tags":["contactos"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"contacto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
-                        }
-                    }
-                }, 
-                "400":{
-                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "401":{
-                    "description":"Sin autorización.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },  
-                "403":{
-                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "406":{
-                    "description":"Token inválido.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },                                        
-                "412":{
-                    "description":"Bearer token no enviado",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                }                            
-              }
-        }
-      },
-      "/auth/contacto-sucursal":{
-        "post":{
-            "operationId": "post-contacto-sucursal",
-            "tags":["contactos"],
-            "summary": "",
-            "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
-                "200":{
-                    "description":"Petición terminada con éxito.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/contacto-info"
                             }
                         }
                     }
@@ -3088,10 +3306,17 @@
             "tags":["sucursal"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/sucursal-agregar"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -3162,14 +3387,30 @@
             "summary": "",
             "description": "",
             "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"sucursal_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/sucursal-agregar"
+                        }
+                    }
+                }                
+            },                         
             "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+                            
                         }
                     }
                 }, 
@@ -3301,16 +3542,14 @@
             "tags":["sucursal"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/get-sucursal-informacion"
                             }
                         }
                     }
@@ -3370,21 +3609,46 @@
       },            
       "/auth/sucursal/{sucursal_id}/{key}":{
         "patch":{
-            "operationId": "put-sucursal-id-key",
+            "operationId": "patch-sucursal-id-key",
             "tags":["sucursal"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"sucursal_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            },{
+                "name":"key",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string",
+                    "enum":["comuna_id", "encargado_contacto_id", "sucursal_tipo_id", "sucursal_direccion"]
+                }
+            }],     
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{"type":"string", "required":true}
+                            }                            
+                        }
+                    }
+                }                
+            },                   
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -3550,6 +3814,147 @@
     },
     "components": {
         "schemas": {
+                "get-sucursal-informacion":{
+                    "type":"object",
+                    "properties":{
+                        "direccion":{"type":"string"},
+                        "comuna":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"}
+                            }
+                        },"sucursal_tipo":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"}
+                            }
+                        },"contacto":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"},
+                                "email":{"type":"string"},
+                                "creacion":{"type":"string"},
+                                "api_activa":{"type":"boolean"},
+                                "rol_contacto":{
+                                    "type":"object",
+                                    "properties":{
+                                        "nombre":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sucursal-agregar":{
+                    "type":"object",
+                    "properties":{
+                        "comuna_id":{"type":"integer", "required":true},
+                        "encargado_contacto_id":{"type":"string", "required":true},
+                        "sucursal_tipo_id":{"type":"integer", "required":true},
+                        "sucursal_direccion":{"type":"string", "required":true}
+                    }
+                },
+                "contacto-info":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string"},
+                        "email":{"type":"string"},
+                        "creacion":{"type":"string"},
+                        "api_activa":{"type":"boolean"},
+                        "role_contacto":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"}
+                            }
+                        }
+                    }
+                },
+                "contacto-agregar":{
+                    "type":"object",
+                    "properties":{
+                        "rol_id":{"type":"integer", "required":true},
+                        "contacto_nombre":{"type":"string", "required":true},
+                        "contacto_email":{"type":"string", "required":true},
+                        "contacto_password":{"type":"string", "required":true},
+                        "contacto_usa_api":{"type":"string", "required":true}
+                    }
+                },
+                "contactos-por-scursal":{
+                    "type":"array",
+                    "items":{
+                        "type":"object",
+                        "properties":{
+                            "id":{"type":"string"},
+                            "nombre":{"type":"string"},
+                            "email":{"type":"string"},
+                            "creacion":{"type":"string"},
+                            "role_contacto":{
+                                "type":"object",
+                                "properties":{
+                                    "nombre":{"type":"string"}
+                                }
+                            }
+                        }
+                    }
+                },
+                "difunto-medios-modificar":{
+                    "type":"object",
+                    "properties":{
+                        "media_nombre":{"type":"string","required":true},
+                        "media_leyenda":{"type":"string"}
+                    }
+                },
+                "difunto-medios-agregar-resources-Response":{
+                    "type":"array",
+                    "items":{
+                        "type":"object",
+                        "properties":{
+                            "id":{"type":"string"},
+                            "nombre":{"type":"string"},
+                            "url":{"type":"string"}
+                        }
+                    }
+                },
+                "difunto-medios-agregar-url":{
+                    "type":"object",
+                    "properties":{
+                        "media_tipo_id":{"type":"integer", "required": true},
+                        "media_nombre":{"type":"string", "required":true},
+                        "media_url":{"type":"string", "required":true},
+                        "media_leyenda":{"type":"string", "required":false}
+                    }
+                },
+                "difunto-medios":{
+                    "type":"array",
+                    "items":{
+                        "type":"object",
+                        "properties":{
+                            "id":{"Type":"string"},
+                            "nombre":{"type":"string"},
+                            "url":{"type":"string"},
+                            "leyenda":{"type":"string"},
+                            "creacion":{"type":"string"},
+                            "media_tipo":{
+                                "type":"object",
+                                "properties":{
+                                    "nombre":{
+                                        "type":"string"
+                                    },
+                                    "mime":{
+                                        "type":"string",
+                                        "enum":[
+                                            "image/jpeg",
+                                            "video/mp4",
+                                            "application/pdf",
+                                            "audio/mpeg",
+                                            "image/png"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "sepultura-informacion":{
                     "type":"object",
                     "properties":{
