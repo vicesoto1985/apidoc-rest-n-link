@@ -1855,10 +1855,17 @@
             "tags":["difunto"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-ingreso"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
@@ -1922,22 +1929,119 @@
               }
         }
       },
+      "/auth/difunto/{difunto_id}/{key}":{
+        "patch":{
+            "operationId": "patch-auth-difunto-id",
+            "tags":["difunto"],
+            "summary": "",
+            "description": "",
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            },{
+                "name":"key",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string",
+                    "enum": ["comuna_id", "nombre", "apellido", "apodo", "biografia", "fecha_nacimiento", "fecha_partida", "gps", "genero", "sepultura_id", "tipo_ser_vivo_id"]                    
+                }
+            }],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "value":{"type":"string", "required":true}
+                            }                            
+                        }
+                    }
+                }                
+            },            
+            "responses": {
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            
+                        }
+                    }
+                }, 
+                "400":{
+                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "401":{
+                    "description":"Sin autorización.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },  
+                "403":{
+                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },
+                "406":{
+                    "description":"Token inválido.",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                },                                        
+                "412":{
+                    "description":"Bearer token no enviado",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }                            
+              }
+        }     
+      },
       "/auth/difunto/{difunto_id}":{
         "get":{
             "operationId": "get-auth-difunto-id",
             "tags":["difunto"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
+                                "$ref": "#/components/schemas/difunto-simple-data"
                             }
                         }
                     }
@@ -1999,88 +2103,31 @@
             "tags":["difunto"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],            
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/difunto-ingreso"
+                        }
+                    }
+                }                
+            },            
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
-                        }
-                    }
-                }, 
-                "400":{
-                    "description":"Problemas o conflictos en el endpoint. Debes entregar todos los datos solicitados al momento de la petición",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "401":{
-                    "description":"Sin autorización.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },  
-                "403":{
-                    "description":"La vida del token ha caducado. Deberás volver a solicitarlo",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },
-                "406":{
-                    "description":"Token inválido.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                },                                        
-                "412":{
-                    "description":"Bearer token no enviado",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
-                            }
-                        }
-                    }
-                }                            
-              }
-        },
-        "patch":{
-            "operationId": "patch-auth-difunto-id",
-            "tags":["difunto"],
-            "summary": "",
-            "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
-                "200":{
-                    "description":"Petición terminada con éxito.",
-                    "content":{
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
+                            
                         }
                     }
                 }, 
@@ -2141,17 +2188,21 @@
             "tags":["difunto"],
             "summary": "",
             "description": "",
-            "security":[
-              {
-              "bearerAuth":[]
-            }],"responses": {
+            "security":[{"bearerAuth":[]}],
+            "parameters":[{
+                "name":"difunto_id",
+                "in":"path",
+                "description":"",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }
+            }],
+            "responses": {
                 "200":{
                     "description":"Petición terminada con éxito.",
                     "content":{
                         "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/responses-api-cor-id"
-                            }
                         }
                     }
                 }, 
@@ -3814,6 +3865,73 @@
     },
     "components": {
         "schemas": {
+                "difunto-simple-data":{
+                    "type":"object",
+                    "properties":{
+                        "nombre":{"type":"string"},
+                        "apellidos":{"type":"string"},
+                        "apodo":{"type":"string"},
+                        "biografia":{"type":"string"},
+                        "creacion":{"type":"string"},
+                        "nacimiento":{"type":"string", "format":"date"},
+                        "partida":{"type":"string", "format":"date"},
+                        "gps":{"type":"string"},
+                        "genero":{"type":"string","required":true,"description":"", "enum":["masculino", "femenino", "sin_especificar"]},
+                        "tipo_ser_vivo":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"}
+                            }
+                        },
+                        "comuna":{
+                            "type":"object",
+                            "properties":{
+                                "reg_id":{"type":"integer"},
+                                "nombre":{"type":"string"}
+                            }
+                        },
+                        "contacto":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"},
+                                "email":{"type":"string"},
+                                "creacion":{"type":"string"},
+                                "role_contacto":{
+                                    "type":"object",
+                                    "properties":{
+                                        "nombre":{"type":"string"}
+                                    }
+                                }
+                            }
+                        },
+                        "sepultura":{
+                            "type":"object",
+                            "properties":{
+                                "nombre":{"type":"string"},
+                                "camposanto_nombre":{"type":"string"},
+                                "camposanto_direccion":{"type":"string"},
+                                "link":{"type":"string"},
+                                "gps":{"type":"string"}
+                            }
+                        }
+                    }
+                },
+                "difunto-ingreso":{
+                    "type":"object",
+                    "properties":{
+                        "sepultura_id":{"type":"string","required":true,"description":""},
+                        "comuna_id":{"type":"integer","required":true,"description":""},
+                        "nombre":{"type":"string","required":true,"description":""},
+                        "apellido":{"type":"string","required":true,"description":""},
+                        "apodo":{"type":"string","required":false,"description":""},
+                        "biografia":{"type":"string","required":true,"description":""},
+                        "fecha_nacimiento":{"type":"string","required":true,"description":"","format":"date"},
+                        "fecha_partida":{"type":"string","required":true,"description":"", "format":"date"},
+                        "ubicacion_gps":{"type":"string","required":false,"description":""},
+                        "genero":{"type":"string","required":true,"description":"", "enum":["masculino", "femenino", "sin_especificar"]},
+                        "tipo_ser_vivo":{"type":"integer","required":false,"description":""}
+                    }
+                },
                 "get-sucursal-informacion":{
                     "type":"object",
                     "properties":{
