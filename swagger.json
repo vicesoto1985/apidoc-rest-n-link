@@ -1951,7 +1951,7 @@
                 "required":true,
                 "schema":{
                     "type":"string",
-                    "enum": ["comuna_id", "nombre", "apellido", "apodo", "biografia", "fecha_nacimiento", "fecha_partida", "gps", "genero", "sepultura_id", "tipo_ser_vivo_id"]                    
+                    "enum": ["comuna_id", "nombre", "apellido", "apodo", "biografia", "fecha_nacimiento", "fecha_partida", "gps", "genero", "sepultura_id", "tipo_ser_vivo_id", "identificador"]                    
                 }
             }],
             "requestBody":{
@@ -3969,6 +3969,7 @@
                                         "partida":{"type":"string"},
                                         "gps":{"type":"string"},
                                         "genero":{"type":"string"},
+                                        "identificador":{"type":"string"},
                                         "tipo_ser_vivo":{
                                             "type":"object",
                                             "properties":{
@@ -4015,6 +4016,7 @@
                 "difunto-simple-data":{
                     "type":"object",
                     "properties":{
+                        "identificador":{"type":"string"},
                         "nombre":{"type":"string"},
                         "apellidos":{"type":"string"},
                         "apodo":{"type":"string"},
@@ -4068,6 +4070,7 @@
                     "properties":{
                         "sepultura_id":{"type":"string","required":true,"description":""},
                         "comuna_id":{"type":"integer","required":true,"description":""},
+                        "identificador":{"type":"string", "required":true, "description":""},
                         "nombre":{"type":"string","required":true,"description":""},
                         "apellido":{"type":"string","required":true,"description":""},
                         "apodo":{"type":"string","required":false,"description":""},
@@ -4405,6 +4408,7 @@
                     "type":"object",
                     "properties":{
                         "id":{"type":"string"},
+                        "identificador":{"type":"string"},
                         "nombre":{"type":"string"},
                         "apellido":{"type":"string"},
                         "apodo":{"type":"string"},
