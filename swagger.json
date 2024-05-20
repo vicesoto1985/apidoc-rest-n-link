@@ -151,6 +151,54 @@
               }            
         }
       },
+      "/api-key/{contacto_id}/{cliente_id}":{
+        "get":{
+            "tags":[
+                "Token Auth"
+            ],
+            "security":[],
+            "operationId": "get-api-key-contacto-cliente",
+            "summary":"",
+            "description":"Será enviado a tu correo el API-KEY.",
+            "parameters":[{
+                "name":"contacto_id",
+                "in":"path",
+                "description":"Identificador del Contacto",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            },{
+                "name":"cliente_id",
+                "in":"path",
+                "description":"Identificador del Cliente",
+                "required":true,
+                "schema":{
+                    "type":"string"
+                }                
+            }],            
+            "responses":{
+                "200":{
+                    "description":"Petición terminada con éxito.",
+                    "content":{
+                        "application/json":{
+                            
+                        }
+                    }
+                },
+                "400":{
+                    "description":"",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Api-Auth-Err-Response"
+                            }
+                        }
+                    }
+                }             
+              }            
+        }
+      },      
       "/auth/pesame/all/{difunto_id}":{
         "get":{
             "operationId": "get-auth-all-pesame",
@@ -4528,6 +4576,11 @@
                                 "contacto_id":{
                                     "type":"string",
                                     "required":true
+                                },
+                                "api_key":{
+                                    "type":"string",
+                                    "required":true,
+                                    "description":"Llave personal proporcionada vía email"
                                 }
                         }                        
                 },
