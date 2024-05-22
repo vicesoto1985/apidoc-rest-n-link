@@ -151,8 +151,8 @@
               }            
         }
       },
-      "/api-key/{contacto_id}/{cliente_id}":{
-        "get":{
+      "/auth/api-key":{
+        "post":{
             "tags":[
                 "Token Auth"
             ],
@@ -160,23 +160,17 @@
             "operationId": "get-api-key-contacto-cliente",
             "summary":"",
             "description":"Será enviado a tu correo el API-KEY.",
-            "parameters":[{
-                "name":"contacto_id",
-                "in":"path",
-                "description":"Identificador del Contacto",
-                "required":true,
-                "schema":{
-                    "type":"string"
-                }                
-            },{
-                "name":"cliente_id",
-                "in":"path",
-                "description":"Identificador del Cliente",
-                "required":true,
-                "schema":{
-                    "type":"string"
-                }                
-            }],            
+            "requestBody": {
+                "description": "",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/post-auth-token-request"
+                    }
+                  }
+                },
+                "required": true
+            },            
             "responses":{
                 "200":{
                     "description":"Petición terminada con éxito.",
@@ -3993,6 +3987,14 @@
     },
     "components": {
         "schemas": {
+                "post-auth-token-request":{
+                    "type":"object",
+                    "properties":{
+                        "cliente_id":{"type":"string", "required":true, "description":""},
+                        "contacto_id":{"type":"string", "required":true, "description":""},
+                        "email":{"type":"string", "required":true, "description":""}
+                    }
+                },
                 "todo-difuntos-de-cliente":{
                     "type":"array",
                     "items":{
