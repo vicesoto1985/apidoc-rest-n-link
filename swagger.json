@@ -11,7 +11,7 @@
     },
     "servers": [
       {
-        "url": "https://api.restinlink.ovh/api/v1"
+        "url": "https://api.restnlink.com/api/v1"
       },
       {
         "url": "http://127.0.0.1:3100/api/v1"
