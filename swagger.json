@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
       "title": "Rest-n-link",
-      "description": "Bienvenido **rest-n-link**, podrás encontrar todos los endpoint para trabajar con nosotros.\n\n Para comenzar a utilizar nuestra api deberás tener presente tu token (**contacto_id**) y el de tu empresa (**cliente_id**) \n\nEl primer paso es solicitar el token de autorización ('authorization' token bearer), deberás dirigirte a la sección **Token Auth** en el método **POST**, **access-token**\n\n***Nota**: Todos los endpoing retornan como application/json* y su respectivo código de respuesta http",
+      "description": "Bienvenido **rest-n-link**, podrás encontrar todos los endpoint para trabajar con nosotros.\n\n Para comenzar a utilizar nuestra api deberás tener presente tu token (**contacto_id**) y el de tu empresa (**cliente_id**) \n\nEl primer paso es solicitar el token de autorización ('authorization' token bearer), deberás dirigirte a la sección **Token Auth** en el método **POST**, **access-token**\n\n***Nota**: Todos los endpoing retornan como application/json* y su respectivo código de respuesta http\n\nPuedes solicitar tu acceso testing a contacto@restnlink.com",
       "termsOfService": "",
       "contact": {
         "email": ""
