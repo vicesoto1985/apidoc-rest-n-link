@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:18
 RUN mkdir /home/node/app
 WORKDIR /home/node/app
 RUN apt-get update && apt-get install -y python3
