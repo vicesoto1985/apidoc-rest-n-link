@@ -1,4 +1,4 @@
-name: actualizacor
+name: Actualizador
 on:
   workflow_dispatch:
   page_build:
@@ -19,5 +19,3 @@ jobs:
           run: | 
             sudo docker build --no-cache -t apidoc-rest-n-link-image .
             sudo docker run -d --name apidoc-rest-n-link-deploy --network bridge -p 3106:3101 apidoc-rest-n-link-image
-
-
